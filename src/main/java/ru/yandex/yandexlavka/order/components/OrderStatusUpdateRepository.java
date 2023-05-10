@@ -1,0 +1,9 @@
+package ru.yandex.yandexlavka.order.components;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+import ru.yandex.yandexlavka.order.components.OrderStatusUpdate;
+
+@Repository
+public interface OrderStatusUpdateRepository extends JpaRepository<OrderStatusUpdate, Long> {
+}
