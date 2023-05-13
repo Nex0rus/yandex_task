@@ -6,11 +6,12 @@ import lombok.NoArgsConstructor;
 import ru.yandex.yandexlavka.order.model.Order;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @NoArgsConstructor
 public class OrderStatusUpdate implements Comparable<OrderStatusUpdate> {
-    public OrderStatusUpdate(Order order, OrderStatus status, LocalDate updateTime) {
+    public OrderStatusUpdate(Order order, OrderStatus status, LocalDateTime updateTime) {
         this.order = order;
         this.status = status;
         this.updateTime = updateTime;
@@ -32,7 +33,7 @@ public class OrderStatusUpdate implements Comparable<OrderStatusUpdate> {
 
     @Getter
     @Column(name = "update_time")
-    private LocalDate updateTime;
+    private LocalDateTime updateTime;
 
     @Override
     public int compareTo(OrderStatusUpdate o) {

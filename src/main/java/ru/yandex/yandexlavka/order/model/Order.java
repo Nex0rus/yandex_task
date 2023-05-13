@@ -41,7 +41,7 @@ public class Order {
     private Set<TimeInterval> deliveryHours = new HashSet<>();
     @Getter
     @OneToMany(mappedBy="order")
-    private Set<OrderStatusUpdate> updateHistory = new HashSet<>();
+    private final Set<OrderStatusUpdate> updateHistory = new HashSet<>();
     @Getter
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "courier_id")

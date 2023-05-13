@@ -6,6 +6,7 @@ import lombok.Getter;
 import ru.yandex.yandexlavka.common.types.TimeInterval;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -27,9 +28,9 @@ public class OrderDto {
     @Getter
     @JsonInclude(JsonInclude.Include.NON_NULL)
     @JsonProperty("complete_time")
-    private final LocalDate completeTime;
+    private final LocalDateTime completeTime;
 
-    private OrderDto(Long orderId, int cost, float weight, int regions, Set<TimeInterval> deliveryHours, LocalDate completeTime) {
+    private OrderDto(Long orderId, int cost, float weight, int regions, Set<TimeInterval> deliveryHours, LocalDateTime completeTime) {
         this.orderId = orderId;
         this.cost = cost;
         this.weight = weight;
@@ -42,7 +43,7 @@ public class OrderDto {
         return new OrderDto(orderId, cost, weight, regions, deliveryHours, null);
     }
 
-    public static OrderDto getInstanceWithCompletedTime(Long orderId, int cost, float weight, int regions, Set<TimeInterval> deliveryHours, LocalDate completedTime) {
+    public static OrderDto getInstanceWithCompletedTime(Long orderId, int cost, float weight, int regions, Set<TimeInterval> deliveryHours, LocalDateTime completedTime) {
         return new OrderDto(orderId, cost, weight, regions, deliveryHours, completedTime);
     }
 }

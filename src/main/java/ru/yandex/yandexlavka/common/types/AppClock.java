@@ -1,7 +1,8 @@
 package ru.yandex.yandexlavka.common.types;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public interface AppClock {
-    public LocalDate getCurrentTime();
+    public LocalDateTime getCurrentTime();
 }

@@ -5,16 +5,16 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import ru.yandex.yandexlavka.common.exceptions.CourierException;
 import ru.yandex.yandexlavka.courier.components.CourierTypeFactory;
-import ru.yandex.yandexlavka.courier.dto.CourierMetaInfoDto;
+import ru.yandex.yandexlavka.courier.components.CourierTypeRepository;
+import ru.yandex.yandexlavka.courier.dto.*;
 import ru.yandex.yandexlavka.courier.model.Courier;
 import ru.yandex.yandexlavka.courier.CourierRepository;
-import ru.yandex.yandexlavka.courier.dto.CourierDto;
-import ru.yandex.yandexlavka.courier.dto.CreateCourierDto;
 import ru.yandex.yandexlavka.order.components.OrderStatus;
 import ru.yandex.yandexlavka.order.components.OrderStatusUpdate;
 import ru.yandex.yandexlavka.order.model.Order;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -22,22 +22,27 @@ import java.util.Set;
 
 @Service
 public class CourierServiceImpl implements CourierService {
-    @Autowired
-    private CourierRepository courierRepository;
-    @Autowired
-    private CourierTypeFactory courierTypeFactory;
+
+    private final CourierRepository courierRepository;
+
+    private final CourierTypeFactory courierTypeFactory;
+    public CourierServiceImpl(CourierRepository courierRepository, CourierTypeFactory courierTypeFactory) {
+        this.courierRepository = courierRepository;
+        this.courierTypeFactory = courierTypeFactory;
+    }
     @Override
-    public List<CourierDto> createCouriers(List<CreateCourierDto> createCourierRequests) {
-        List<Courier> couriers = createCourierRequests.stream()
+    public CreateCouriersResponse createCouriers(CreateCourierRequest createCourierRequest) {
+        List<Courier> couriers = createCourierRequest.couriers().stream()
                 .map(ccr -> new Courier(courierTypeFactory.getTypeOf(ccr.type()), new HashSet<>(ccr.regions()), new HashSet<>(ccr.workingHours())))
                 .toList();
         courierRepository.saveAll(couriers);
-        return getCourierDtos(couriers);
+        return new CreateCouriersResponse(getCourierDtos(couriers));
     }
 
     @Override
-    public List<CourierDto> getAllCouriers(Pageable pageRequest) {
-        return getCourierDtos(courierRepository.findAll(pageRequest).getContent());
+    public GetCouriersResponse getAllCouriers(Pageable pageRequest) {
+        List<CourierDto> courierDtos = getCourierDtos(courierRepository.findAll(pageRequest).getContent());
+        return new GetCouriersResponse(courierDtos, pageRequest.getPageSize(), (int)pageRequest.getOffset());
     }
 
     @Override
@@ -53,9 +58,9 @@ public class CourierServiceImpl implements CourierService {
         {
             Optional<OrderStatusUpdate> completionUpdate = order.getLastUpdateWithStatus(OrderStatus.COMPLETED);
             if (completionUpdate.isEmpty()) {return false;}
-            LocalDate completionTime = completionUpdate.get().getUpdateTime();
+            LocalDateTime completionTime = completionUpdate.get().getUpdateTime();
 
-            return completionTime.equals(startDate) || completionTime.isAfter(startDate) && completionTime.isBefore(endDate);
+            return completionTime.toLocalDate().equals(startDate) || completionTime.isAfter(startDate.atStartOfDay()) && completionTime.isBefore(endDate.plusDays(1).atStartOfDay());
         }).toList();
 
         if (completedInInterval.size() == 0) {

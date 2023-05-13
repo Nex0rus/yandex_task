@@ -30,15 +30,15 @@ public class Courier {
     @ElementCollection
     @CollectionTable(name = "courier_regions", joinColumns = @JoinColumn(name = "courier_id"))
     @Column(name = "region")
-    private Set<Integer> regions = new HashSet<>();
+    private Set<Integer> regions;
 
     @Getter
     @ElementCollection
     @CollectionTable(name = "courier_working_hours", joinColumns = @JoinColumn(name = "courier_id"))
     @Column(name = "working_hours")
-    private Set<TimeInterval> workingHours = new HashSet<>();
+    private Set<TimeInterval> workingHours;
 
     @Getter
     @OneToMany(mappedBy="courier")
-    private Set<Order> orders = new HashSet<>();
+    private final Set<Order> orders = new HashSet<>();
 }

@@ -1,7 +1,5 @@
 package ru.yandex.yandexlavka.courier.components;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
 import ru.yandex.yandexlavka.common.exceptions.CourierException;
 
 import java.util.HashMap;
