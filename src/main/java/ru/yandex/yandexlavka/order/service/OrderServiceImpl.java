@@ -54,7 +54,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public OrderDto getOrderById(long orderId) {
-        return getOrder(orderId).toDto(clock.getCurrentTime());
+        return getOrder(orderId).toDto();
     }
 
     @Override
@@ -65,14 +65,14 @@ public class OrderServiceImpl implements OrderService {
             validateCompleteRequestAndElseThrow(order, request);
             OrderStatusUpdate completionStatusUpdate = new OrderStatusUpdate(order, OrderStatus.COMPLETED, request.completeTime());
             order.getUpdateHistory().add(completionStatusUpdate);
-            orderDtos.add(order.toDto(clock.getCurrentTime()));
+            orderDtos.add(order.toDto());
         });
 
         return orderDtos;
     }
 
     private List<OrderDto> getOrderDtos(List<Order> orders) {
-        return orders.stream().map(order -> order.toDto(clock.getCurrentTime())).toList();
+        return orders.stream().map(order -> order.toDto()).toList();
     }
 
     private void validateCompleteRequestAndElseThrow(Order order, CompleteOrderDto request) {

@@ -1,11 +1,11 @@
 package ru.yandex.yandexlavka.courier.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.experimental.ExtensionMethod;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import ru.yandex.yandexlavka.common.exceptions.CourierException;
+import ru.yandex.yandexlavka.courier.components.CourierExtensions;
 import ru.yandex.yandexlavka.courier.components.CourierTypeFactory;
-import ru.yandex.yandexlavka.courier.components.CourierTypeRepository;
 import ru.yandex.yandexlavka.courier.dto.*;
 import ru.yandex.yandexlavka.courier.model.Courier;
 import ru.yandex.yandexlavka.courier.CourierRepository;
@@ -21,6 +21,7 @@ import java.util.Optional;
 import java.util.Set;
 
 @Service
+@ExtensionMethod(CourierExtensions.class)
 public class CourierServiceImpl implements CourierService {
 
     private final CourierRepository courierRepository;
@@ -47,7 +48,7 @@ public class CourierServiceImpl implements CourierService {
 
     @Override
     public CourierDto getCourierById(long courierId) {
-        return toCourierDto(getCourier(courierId));
+        return getCourier(courierId).toDto();
     }
 
     @Override
@@ -64,20 +65,16 @@ public class CourierServiceImpl implements CourierService {
         }).toList();
 
         if (completedInInterval.size() == 0) {
-            return CourierMetaInfoDto.getInstance(toCourierDto(courier));
+            return CourierMetaInfoDto.getInstance(courier.toDto());
         }
 
         int rating = completedInInterval.size();
         int earnings = completedInInterval.stream().map(Order::getCost).reduce(0, (subtotal, cost) -> subtotal + cost * courier.getType().getEarningsCoefficient());
-        return CourierMetaInfoDto.getInstanceWithRatingAndEarnings(toCourierDto(courier), rating, earnings);
+        return CourierMetaInfoDto.getInstanceWithRatingAndEarnings(courier.toDto(), rating, earnings);
     }
 
     private List<CourierDto> getCourierDtos(List<Courier> couriers) {
-        return couriers.stream().map(this::toCourierDto).toList();
-    }
-
-    private CourierDto toCourierDto(Courier courier) {
-        return new CourierDto(courier.getId(), courier.getType().getTypeEnum(), courier.getRegions(), courier.getWorkingHours());
+        return couriers.stream().map(courier -> courier.toDto()).toList();
     }
 
     private Courier getCourier(long courierId) {
