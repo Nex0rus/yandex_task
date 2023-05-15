@@ -2,13 +2,16 @@ package ru.yandex.yandexlavka.courier.service;
 
 import org.springframework.data.domain.Pageable;
 import ru.yandex.yandexlavka.courier.dto.*;
+import ru.yandex.yandexlavka.courier.dto.request.CreateCourierRequest;
 
 import java.time.LocalDate;
 import java.util.List;
 
 public interface CourierService {
-    CreateCouriersResponse createCouriers(CreateCourierRequest createCourierRequest);
-    GetCouriersResponse getAllCouriers(Pageable pageRequest);
+    List<CourierDto> createCouriers(CreateCourierRequest createCourierRequest);
+    List<CourierDto> getAllCouriers(Pageable pageRequest);
     CourierDto getCourierById(long courierId);
-    CourierMetaInfoDto getCourierMetaInfo(long courierId, LocalDate startDate, LocalDate endDate);
+    CourierMetaInfo getCourierMetaInfo(long courierId, LocalDate startDate, LocalDate endDate);
+    List<CouriersGroupOrders> getOrderAssignments(LocalDate date, Long courierId);
+
 }

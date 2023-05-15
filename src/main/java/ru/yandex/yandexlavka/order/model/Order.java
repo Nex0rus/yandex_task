@@ -3,14 +3,17 @@ package ru.yandex.yandexlavka.order.model;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import ru.yandex.yandexlavka.common.types.TimeInterval;
 import ru.yandex.yandexlavka.courier.model.Courier;
-import ru.yandex.yandexlavka.order.components.OrderStatus;
-import ru.yandex.yandexlavka.order.components.OrderStatusUpdate;
+import ru.yandex.yandexlavka.order.components.group.OrderGroup;
+import ru.yandex.yandexlavka.order.components.status.OrderStatus;
+import ru.yandex.yandexlavka.order.components.status.OrderStatusUpdate;
 
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
+import java.util.Spliterator;
 
 @Entity
 @NoArgsConstructor
@@ -43,14 +46,21 @@ public class Order {
     @OneToMany(mappedBy="order")
     private final Set<OrderStatusUpdate> updateHistory = new HashSet<>();
     @Getter
+    @Setter
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "courier_id")
-    private Courier courier;
+    @JoinColumn(name = "group_id")
+    private OrderGroup group;
 
     public Optional<OrderStatusUpdate> getLastUpdateWithStatus(OrderStatus status) {
         return getUpdateHistory()
                 .stream()
                 .filter(orderStatusUpdate -> orderStatusUpdate.getStatus().equals(status))
                 .max(OrderStatusUpdate::compareTo);
+    }
+
+    public OrderStatusUpdate getLastUpdate() {
+        return getUpdateHistory()
+                .stream()
+                .max(OrderStatusUpdate::compareTo).get();
     }
 }

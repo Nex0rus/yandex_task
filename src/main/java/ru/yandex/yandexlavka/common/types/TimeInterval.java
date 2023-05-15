@@ -46,6 +46,11 @@ public class TimeInterval {
         return intervalStart.format(dateTimeFormatter) + separator + intervalEnd.format(dateTimeFormatter);
     }
 
+    public boolean belongsTo(TimeInterval other) {
+        if (other == null) { return false; }
+        return !intervalStart.isBefore(other.intervalStart) && !intervalEnd.isAfter(other.intervalEnd);
+    }
+
     public String getIntervalFormat() {
         return timeFormat + separator + timeFormat;
     }

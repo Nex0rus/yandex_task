@@ -1,14 +1,10 @@
 package ru.yandex.yandexlavka.common.exceptions;
 
-import ru.yandex.yandexlavka.courier.components.CourierTypeEnum;
+import ru.yandex.yandexlavka.courier.components.type.CourierTypeEnum;
 
 public class CourierException extends DomainException {
     private CourierException(String message) {
         super(message);
-    }
-
-    public static CourierException courierNotFoundException(long id) {
-        return new CourierException("Failed to find courier with specified id : " + id);
     }
 
     public static CourierException illegalCourierTypeException(CourierTypeEnum typeVal) {

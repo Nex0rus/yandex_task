@@ -1,12 +1,11 @@
-package ru.yandex.yandexlavka.courier.dto;
+package ru.yandex.yandexlavka.courier.dto.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
 import ru.yandex.yandexlavka.common.types.TimeInterval;
-import ru.yandex.yandexlavka.courier.components.CourierTypeEnum;
+import ru.yandex.yandexlavka.courier.components.type.CourierTypeEnum;
 
 import java.util.List;
 

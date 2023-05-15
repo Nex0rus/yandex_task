@@ -3,7 +3,7 @@ package ru.yandex.yandexlavka.courier.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import ru.yandex.yandexlavka.common.types.TimeInterval;
-import ru.yandex.yandexlavka.courier.components.CourierTypeEnum;
+import ru.yandex.yandexlavka.courier.components.type.CourierTypeEnum;
 
 import java.util.Set;
 import java.util.stream.Collectors;

@@ -1,7 +1,8 @@
-package ru.yandex.yandexlavka.courier.dto;
+package ru.yandex.yandexlavka.courier.dto.request;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
+import ru.yandex.yandexlavka.courier.dto.request.CreateCourierDto;
 
 import java.util.List;
 

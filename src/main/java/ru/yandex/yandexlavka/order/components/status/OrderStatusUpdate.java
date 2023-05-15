@@ -1,11 +1,10 @@
-package ru.yandex.yandexlavka.order.components;
+package ru.yandex.yandexlavka.order.components.status;
 
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import ru.yandex.yandexlavka.order.model.Order;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity

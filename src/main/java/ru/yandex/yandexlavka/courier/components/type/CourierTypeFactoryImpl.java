@@ -1,4 +1,4 @@
-package ru.yandex.yandexlavka.courier.components;
+package ru.yandex.yandexlavka.courier.components.type;
 
 import ru.yandex.yandexlavka.common.exceptions.CourierException;
 
@@ -28,6 +28,10 @@ public class CourierTypeFactoryImpl implements CourierTypeFactory {
         private CourierTypeEnum typeEnumVal;
         private int ratingCoefficient = 0;
         private int earningsCoefficient = 0;
+        private int maxOrderWeight = 0;
+        private int maxOrderCount = 0;
+
+        private int maxRegionsCount = 0;
 
         public CourierTypeBuilder(CourierTypeEnum typeEnumVal) {
             this.typeEnumVal = typeEnumVal;
@@ -43,14 +47,32 @@ public class CourierTypeFactoryImpl implements CourierTypeFactory {
             return this;
         }
 
+        public CourierTypeBuilder withMaxOrderWeight(int maxOrderWeight) {
+            this.maxOrderWeight = maxOrderWeight;
+            return this;
+        }
+
+        public CourierTypeBuilder withMaxOrderCount(int maxOrderCount) {
+            this.maxOrderCount = maxOrderCount;
+            return this;
+        }
+
+        public CourierTypeBuilder withMaxRegionsCount(int maxRegionsCount) {
+            this.maxRegionsCount = maxRegionsCount;
+            return this;
+        }
+
         public CourierType build() {
-            return new CourierType(typeEnumVal, ratingCoefficient, earningsCoefficient);
+            return new CourierType(typeEnumVal, ratingCoefficient, earningsCoefficient, maxOrderWeight, maxOrderCount, maxRegionsCount);
         }
 
         public CourierTypeBuilder resetToType(CourierTypeEnum typeEnumVal) {
             this.typeEnumVal = typeEnumVal;
             this.ratingCoefficient = 0;
             this.earningsCoefficient = 0;
+            this.maxOrderWeight = 0;
+            this.maxOrderCount = 0;
+            this.maxRegionsCount = 0;
             return this;
         }
     }

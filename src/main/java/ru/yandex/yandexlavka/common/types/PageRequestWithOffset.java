@@ -26,11 +26,6 @@ public class PageRequestWithOffset implements Pageable {
         return new PageRequestWithOffset(offset, limit, Sort.unsorted());
     }
 
-    public static PageRequestWithOffset getInstanceWithSort(int offset, int limit, Sort sort) {
-        return new PageRequestWithOffset(offset, limit, sort);
-    }
-
-
     @Override
     public int getPageNumber() {
         return offset / limit;

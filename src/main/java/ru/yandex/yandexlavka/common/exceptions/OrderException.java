@@ -1,14 +1,8 @@
 package ru.yandex.yandexlavka.common.exceptions;
 
-import org.aspectj.weaver.ast.Or;
-
 public class OrderException extends DomainException {
     private OrderException(String message) {
         super(message);
-    }
-
-    public static OrderException orderNotFoundException(long id) {
-        return new OrderException("Failed to find order with specified id : " + id);
     }
 
     public static OrderException orderAlreadyCompletedException(long id) {

@@ -1,4 +1,4 @@
-package ru.yandex.yandexlavka.order.dto;
+package ru.yandex.yandexlavka.order.dto.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.Min;
