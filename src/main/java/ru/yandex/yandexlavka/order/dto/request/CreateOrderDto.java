@@ -1,0 +1,19 @@
+package ru.yandex.yandexlavka.order.dto.request;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import ru.yandex.yandexlavka.common.types.TimeInterval;
+
+import java.util.List;
+
+public record CreateOrderDto(@Min(value = 1, message = "cost must be a positive integer")
+                             Integer cost,
+                             @NotNull(message = "weight must be not null")
+                             Float weight,
+                             @Min(value = 1, message = "region must be a positive integer")
+                             Integer regions,
+                             @NotNull(message = "array of delivery hours must be non null")
+                             @JsonProperty("delivery_hours")
+                             List<TimeInterval> deliveryHours) { }
